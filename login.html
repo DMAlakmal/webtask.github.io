@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h2 {
+            color: #00796b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            flex: 1;
+            padding: 14px 20px; /* Increased padding for larger input fields */
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 18px; /* Increased font size for better readability */
+        }
+
+        button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #d32f2f;
+        }
+
+        .icon {
+            font-size: 12px; /* Reduced font size for the icon */
+            color: #fff;
+        }
+
+        .show-hide-btn {
+            background-color: #0288d1; /* Blue background */
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            padding: 6px 8px; /* Reduced padding */
+            border-radius: 4px;
+        }
+
+        .show-hide-btn:hover {
+            background-color: #0277bd; /* Darker blue for hover effect */
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            color: #0288d1;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function togglePasswordVisibility(id) {
+            var element = document.getElementById(id);
+            var icon = document.getElementById('toggle-icon');
+            if (element.type === "password") {
+                element.type = "text";
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                element.type = "password";
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function validateLogin() {
+            var phone = document.getElementById("phone").value;
+            var password = document.getElementById("password").value;
+            var storedPhone = localStorage.getItem("phone");
+            var storedPassword = localStorage.getItem("password");
+
+            if (phone === storedPhone && password === storedPassword) {
+                window.location.href = "stream.html";
+            } else {
+                alert("Incorrect phone number or password.");
+            }
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <form onsubmit="return validateLogin()">
+        <h2>Login</h2>
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone" required maxlength="10">
+        
+        <label for="password">Password:</label>
+        <div class="input-container">
+            <input type="password" id="password" name="password" required>
+            <button type="button" class="show-hide-btn" onclick="togglePasswordVisibility('password')">
+                <i id="toggle-icon" class="fas fa-eye icon"></i>
+            </button>
+        </div>
+        
+        <button type="submit">Login</button>
+        <a href="reset_password.html">Forgot Password?</a>
+    </form>
+</body>
+</html>

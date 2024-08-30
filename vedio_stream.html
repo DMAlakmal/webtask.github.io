@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Stream</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        .save-button {
+            background-color: #4CAF50; /* Green */
+        }
+        .clear-button {
+            background-color: #f44336; /* Red */
+        }
+        .add-button {
+            background-color: #2196F3; /* Blue */
+        }
+    </style>
+    <script>
+        function incrementCount(type) {
+            var countInput = document.getElementById(type);
+            var currentCount = parseInt(countInput.value) || 0;
+            countInput.value = currentCount + 1;
+        }
+
+        function saveDetails() {
+            var name = document.getElementById('name').value;
+            var mites = document.getElementById('mites').value;
+            var pests = document.getElementById('pests').value;
+
+            // Retrieve existing details from local storage
+            var details = JSON.parse(localStorage.getItem('details')) || [];
+
+            // Append new details to the list
+            details.push({ name: name, mites: mites, pests: pests });
+
+            // Save updated details to local storage
+            localStorage.setItem('details', JSON.stringify(details));
+
+            // Redirect to view details page
+            window.location.href = 'view_details.html';
+        }
+
+        function clearDetails() {
+            document.getElementById('name').value = '';
+            document.getElementById('mites').value = '0';
+            document.getElementById('pests').value = '0';
+        }
+    </script>
+</head>
+<body>
+    <h2>Video Stream</h2>
+    <img src="http://192.168.0.190:7123/stream.mjpg" alt="Video Stream" style="width:100%; height:auto;">
+    
+    <h3>Enter Details</h3>
+    <div class="container">
+        <form onsubmit="event.preventDefault(); saveDetails();">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <br><br>
+            <label for="mites">Mites:</label>
+            <input type="text" id="mites" value="0" required>
+            <button type="button" class="add-button" onclick="incrementCount('mites')">Add</button>
+            <br><br>
+            <label for="pests">Pests:</label>
+            <input type="text" id="pests" value="0" required>
+            <button type="button" class="add-button" onclick="incrementCount('pests')">Add</button>
+            <br><br>
+            <div class="buttons">
+                <button type="submit" class="save-button">Save</button>
+                <button type="button" class="clear-button" onclick="clearDetails()">Clear</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

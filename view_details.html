@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .detail {
+            margin-bottom: 15px;
+        }
+        .label {
+            font-weight: bold;
+        }
+        .entry {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .cut-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .cut-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+    <script>
+        function loadDetails() {
+            var details = JSON.parse(localStorage.getItem('details')) || [];
+            var detailsContainer = document.getElementById('detailsContainer');
+            detailsContainer.innerHTML = '';
+
+            details.forEach(function(detail, index) {
+                var detailDiv = document.createElement('div');
+                detailDiv.classList.add('entry');
+                detailDiv.innerHTML = `
+                    <button class="cut-button" onclick="cutDetail(${index})">Cut</button>
+                    <div class="detail">
+                        <span class="label">Entry ${index + 1} - Name:</span> <span>${detail.name}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Mites:</span> <span>${detail.mites}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Pests:</span> <span>${detail.pests}</span>
+                    </div>
+                `;
+                detailsContainer.appendChild(detailDiv);
+            });
+        }
+
+        function cutDetail(index) {
+            var details = JSON.parse(localStorage.getItem('details')) || [];
+            details.splice(index, 1); // Remove the specific detail entry
+            localStorage.setItem('details', JSON.stringify(details));
+            loadDetails(); // Reload the updated details
+        }
+
+        function clearAllDetails() {
+            localStorage.removeItem('details');
+            loadDetails();
+        }
+
+        window.onload = loadDetails;
+    </script>
+</head>
+<body>
+    <h2>Saved Details</h2>
+    <div id="detailsContainer"></div>
+    <button onclick="clearAllDetails()">Clear All Details</button>
+</body>
+</html>
